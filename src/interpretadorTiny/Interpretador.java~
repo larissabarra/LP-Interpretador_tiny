@@ -1,0 +1,98 @@
+package interpretadorTiny;
+
+import java.io.*;
+import comandosTiny.*;
+import java.util.Vector;
+
+
+public class Interpretador {
+
+	private String arquivo;
+	private ArquivoFonte leitor;
+	private Vector <Comando> comandos;
+
+	public Interpretador(String arg) {
+		arquivo = arg;
+		leitor = new ArquivoFonte(arquivo);
+		comandos = new Vector <Comando> ();
+	}
+	
+	public void seleciona(String palavra, Vector<Comando> com) {
+		String p;
+		switch(palavra){
+			case "print":
+				p = leitor.proximaPalavra(); //vai ser o (
+				p = leitor.proximaPalavra(); //vai ser uma var ou '
+				if(p.equals("\'")) {
+					com.addElement(new ComandoPrint(leitor.proximaPalavra(), false));
+					p = leitor.proximaPalavra(); //vai ser o apóstrofe fechando
+				} else {
+					com.addElement(new ComandoPrint(p, true));	
+				}
+				p = leitor.proximaPalavra(); //vai ser o )
+				break;
+				
+			case "println":
+				com.addElement(new ComandoPrintln());
+				break;
+				
+			case "readInt":
+			//System.out.println("readint: " + palavra);
+				p = leitor.proximaPalavra(); //vai ser o (
+				com.addElement(new ComandoReadint(leitor.proximaPalavra()));
+				p = leitor.proximaPalavra(); //vai ser o )
+				break;
+				
+			case "while":
+				p = leitor.proximaPalavra(); //vai ser o (
+				String op1 = leitor.proximaPalavra();
+				String condicao = leitor.proximaPalavra();
+				String op2 = leitor.proximaPalavra();
+				p = leitor.proximaPalavra(); //vai ser o )
+				ComandoWhile w = new ComandoWhile(op1, condicao, op2);
+				p = leitor.proximaPalavra(); //pega o primeiro comando pra analisar
+				while(!p.equals("endw")) {
+					seleciona(p, w.getListaComandos());
+					p = leitor.proximaPalavra();
+					//System.out.println("p do while: " +p);
+				}
+				com.addElement(w);
+				break;
+				
+			default:
+				p = leitor.proximaPalavra(); //vai ser o =
+				String parcela1 = leitor.proximaPalavra();
+				String op = leitor.proximaPalavra();
+				//System.out.println("p atrib: " + p + " parcela1: " + parcela1 + " op: " + op);
+				if(op.equals("+") || op.equals("-") || op.equals("*") || op.equals("/")) {
+					String parcela2 = leitor.proximaPalavra();
+					try {
+						int valor = Integer.parseInt(parcela2);
+						com.addElement(new ComandoAtrib(palavra, parcela1, op, valor));
+		 			} catch(NumberFormatException e){
+		 				com.addElement(new ComandoAtrib(palavra, parcela1, op, parcela2));
+		 			}
+				} else {
+					com.addElement(new ComandoAtrib(palavra, Integer.parseInt(parcela1)));
+					seleciona(op, com);
+				}
+				//System.out.println("fora /" + palavra);
+				break;
+		}
+	}
+	
+	public void lerArquivo() {
+		String palavra = leitor.proximaPalavra();
+		while(!palavra.equals("EOF") && !palavra.equals("endp")) {
+			//System.out.println("palavra: " + palavra);
+			seleciona(palavra, comandos);
+			palavra = leitor.proximaPalavra();
+		}
+	}
+	
+	public void executar() {
+		for(int i = 0; i < comandos.size(); i++){
+			comandos.elementAt(i).executar();
+		}	
+	}
+}

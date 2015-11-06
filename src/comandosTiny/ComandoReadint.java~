@@ -1,0 +1,23 @@
+package comandosTiny;
+
+import java.io.*;
+import java.util.HashMap;
+
+
+public class ComandoReadint extends Comando {
+
+	private int valor;
+	private String nome;
+	private Scanner scan;
+	
+	public ComandoReadint(String nome){
+		super("readInt", null);
+		scan = new Scanner (System.in);
+		this.nome = nome;
+	}
+	
+	public void executar() {
+		valor = scan.nextInt();
+		variaveis.put(nome, valor);
+	}
+}

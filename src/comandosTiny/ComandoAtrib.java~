@@ -1,0 +1,82 @@
+package comandosTiny;
+
+import java.io.*;
+import java.util.HashMap;
+
+
+public class ComandoAtrib extends Comando {
+
+	private int valor, tipo;
+	private String atribuir, parcela1, parcela2, operador;
+	
+	public ComandoAtrib(String atribuir, int valor){
+		super(null, null);
+		this.atribuir = atribuir;
+		this.valor = valor;
+		tipo = 1;
+	}
+	
+	public ComandoAtrib(String atribuir, String parcela1, String operador, int valor){
+		super(null, null);
+		this.atribuir = atribuir;
+		this.valor = valor;
+		this.operador = operador;
+		this.parcela1 = parcela1;
+		tipo = 2;
+	}
+	
+	public ComandoAtrib(String atribuir, String parcela1, String operador, String parcela2){
+		super(null, null);
+		this.atribuir = atribuir;
+		this.operador = operador;
+		this.parcela1 = parcela1;
+		this.parcela2 = parcela2;
+		tipo = 3;
+	}
+	
+	public void executar() {
+		Integer resultado = null;
+		boolean flag;
+		switch(tipo) {
+			case 1:
+			//System.out.println("simples " + atribuir);
+				variaveis.put(atribuir, valor);
+				//System.out.println(variaveis.get(atribuir));
+				break;
+			case 2:
+			//System.out.println("aqui");
+				resultado = variaveis.get(parcela1);
+				flag = true;
+				if(resultado != null) {
+				//System.out.println("achou z" + resultado);
+					switch(operador){
+						case "+": resultado += valor; break;
+						case "-": resultado -= valor; break;
+						case "*": resultado *= valor; break;
+						case "/": resultado /= valor; break;
+						default: flag = false; break;
+					}
+					//System.out.println(resultado);
+					if(flag) variaveis.put(atribuir, resultado);
+					//System.out.println(variaveis.get(atribuir));
+				}
+				break;
+			case 3:
+				resultado = variaveis.get(parcela1);
+				Integer p2 = variaveis.get(parcela2);
+				flag = true;
+				if(resultado != null && p2 != null) {
+					switch(operador){
+						case "+": resultado += p2; break;
+						case "-": resultado -= p2; break;
+						case "*": resultado *= p2; break;
+						case "/": resultado /= p2; break;
+						default: flag = false; break;
+					}
+					if(flag) variaveis.put(atribuir, resultado);
+				}
+				break;
+				}
+	}
+}
+

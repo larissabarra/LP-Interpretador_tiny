@@ -1,0 +1,20 @@
+package comandosTiny;
+
+import java.io.*;
+import java.util.HashMap;
+
+
+public abstract class Comando {
+
+	private String palavraChave;
+	private String finalizador;
+	public static HashMap <String, int> variaveis;
+
+	public Comando(String palavraChave, String finalizador){
+		this.palavraChave = palavraChave;
+		this.finalizador = finalizador;
+		variaveis = new HashMap <String, int> ();
+	}
+	
+	public abstract void executar();
+}

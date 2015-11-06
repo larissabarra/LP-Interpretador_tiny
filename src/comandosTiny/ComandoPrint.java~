@@ -1,0 +1,27 @@
+package comandosTiny;
+
+import java.io.*;
+import java.util.HashMap;
+
+
+public class ComandoPrint extends Comando {
+
+	private String valor;
+	private boolean variavel;
+
+	public ComandoPrint(String valor, boolean variavel){
+		super("print", null);
+		this.valor = valor;
+		this.variavel = variavel;
+	}
+	
+	public void executar() {
+		if(variavel) {
+			Integer var = variaveis.get(valor);
+			if(var) System.out.print(var);
+		} else {
+			System.out.print(valor);
+		}
+		//x == null ? System.out.print(palavra) : System.out.print(x);
+	}
+}

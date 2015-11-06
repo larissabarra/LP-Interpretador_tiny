@@ -1,0 +1,13 @@
+z = 1
+x = z + 1
+y = x + z
+print (x)
+println
+print (y)
+println
+print (z)
+readInt (n)
+a= z * n
+println
+print(n)
+endp

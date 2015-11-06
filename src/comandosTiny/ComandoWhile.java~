@@ -1,0 +1,61 @@
+package comandosTiny;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Vector;
+
+
+public class ComandoWhile extends Comando {
+
+	private String var1, var2, condicao;
+	private Vector <Comando> comandos;
+	
+	public ComandoWhile(String var1, String condicao, String var2){
+		super("while", "endw");
+		this.condicao = condicao;
+		this.var1 = var1;
+		this.var2 = var2;
+		comandos = new Vector <Comando> ();
+	}
+	
+	public Vector<Comando> getListaComandos(){
+		return comandos;
+	}
+	
+	public void executar() {
+		int variavel1 = variaveis.get(var1);
+		int variavel2 = variaveis.get(var2);
+		if(variavel1 && variavel2) {
+			switch(condicao) {
+				case ">":
+					while(variavel1 > variavel2) {
+						for(int i = 0; i < comandos.size(); i++) {
+							comandos.elementAt(i).executar();
+						}
+						variavel1 = variaveis.get(var1);
+						variavel2 = variaveis.get(var2);
+					}
+					break;
+				case "<":
+					while(variavel1 < variavel2) {
+						for(int i = 0; i < comandos.size(); i++) {
+							comandos.elementAt(i).executar();
+						}
+						variavel1 = variaveis.get(var1);
+						variavel2 = variaveis.get(var2);
+					}
+					break;
+				case "=":
+					while(variavel1 == variavel2) {
+						for(int i = 0; i < comandos.size(); i++) {
+							comandos.elementAt(i).executar();
+						}
+						variavel1 = variaveis.get(var1);
+						variavel2 = variaveis.get(var2);
+					}
+					break;
+			}
+		}
+	}
+}
+

@@ -1,0 +1,14 @@
+z = 1
+x = z + 1
+y = x + z
+print (x)
+printf
+print (y)
+println
+print (z)
+print ('Entre com n:')
+cin (n)
+a = z * n
+println
+print(n)
+endpp

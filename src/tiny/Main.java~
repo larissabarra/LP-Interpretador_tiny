@@ -1,0 +1,23 @@
+package tiny;
+
+import interpretadorTiny.*;
+
+public class Main {
+
+	public static void main(String[] args) {
+		ArquivoFonte af = new ArquivoFonte("exemplo1.tiny");
+		String palavra = af.proximaPalavra();
+		while(palavra != "EOF") {
+			System.out.println(palavra);
+			palavra = af.proximaPalavra();
+		}
+		Interpretador inter = new Interpretador(args[0]);
+		if (args.length == 1) {
+		    inter.lerArquivo();
+		    inter.executar();
+		}
+	}
+}
+
+
+

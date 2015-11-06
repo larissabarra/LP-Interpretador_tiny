@@ -1,0 +1,16 @@
+package comandosTiny;
+
+import java.io.*;
+
+
+public class ComandoPrintln extends Comando {
+
+	public ComandoPrintln(){
+		super("println", null);
+	}
+	
+	public void executar() {
+		//x == null ? System.out.print(palavra) : System.out.print(x);
+		System.out.print(x == null ? palavra : x);
+	}
+}

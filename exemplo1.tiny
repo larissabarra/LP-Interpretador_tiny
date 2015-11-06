@@ -1,0 +1,6 @@
+print ('xxx')
+print ('=')
+readInt (x)
+println
+print (x)
+endp
